@@ -1,6 +1,6 @@
 Feature: Demo Feature
 
-    @demo
+    # @demo
     Scenario Outline: Run first demo feature
         Given Google page is opened
         # <SearchItem> is a reference to table below

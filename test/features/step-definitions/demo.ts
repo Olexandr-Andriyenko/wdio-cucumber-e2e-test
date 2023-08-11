@@ -31,3 +31,40 @@ Then(/^URL should match (.*)$/, async function (expectedURL) {
   // Compare the URL
   chai.expect(url).to.equal(expectedURL);
 });
+
+/**
+ * Web Interactions
+ */
+Given(/^A web page is opened$/, async function () {
+  // Open webpage
+  await browser.url('/inputs'); // Leave blank because baseURL is set (wdio.conf.ts)
+  // Wait 15s before telling "can't find element" and 10s before "can't open page"
+  await browser.setTimeout({ implicit: 15000, pageLoad: 10000 });
+  await browser.maximizeWindow();
+});
+
+When(/^Perfom web interactions$/, async function () {
+  /**
+   * 1. Input box
+   * Actions:
+   * a) Type into input box
+   * b) Clear the field or just add value
+   * c) Click and type "ele.click()"
+   * d) Slow typiing
+   */
+
+  const num: number = 12345;
+  const numStr: string = num.toString();
+  let ele = await $(`[type="number"]`);
+  // Step a) and b)
+  await ele.setValue(num); // Clears value before seting (addValue() doesn't clear)
+  // Step c)
+  await ele.click();
+  // Step d) Slow typiing
+  for (let i = 0; i < numStr.length; i++) {
+    let charStr = numStr.charAt(i);
+    await browser.pause(1000);
+    await browser.keys(charStr);
+  }
+  await browser.debug();
+});
